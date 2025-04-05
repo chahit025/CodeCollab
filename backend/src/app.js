@@ -47,7 +47,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/auth', passwordResetRoutes);
 
 app.use('/ai',aiRoutes);
-
+//dummy route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
