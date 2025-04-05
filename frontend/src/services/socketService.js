@@ -6,7 +6,8 @@ class SocketService {
   }
 
   connect() {
-    this.socket = io('http://localhost:3000', {
+    this.socket = io('https://codecollab-backend-zcwv.onrender.com', {
+      transports: ['websocket'],
       withCredentials: true
     });
     return this.socket;
