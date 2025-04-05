@@ -218,7 +218,7 @@ const EnhancedCodeEditor = () => {
 
           // Make API call to get AI response
           const response = await fetch(
-            `http://localhost:3000/ai/get-result?prompt=${encodeURIComponent(
+            `https://codecollab-backend-zcwv.onrender.com/ai/get-result?prompt=${encodeURIComponent(
               prompt
             )}`
           );
@@ -311,7 +311,7 @@ const EnhancedCodeEditor = () => {
       
       const filename = `code.${fileExtension}`;
       
-      const response = await fetch('http://localhost:3000/ai/get-code-review', {
+      const response = await fetch('https://codecollab-backend-zcwv.onrender.com/ai/get-code-review', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
