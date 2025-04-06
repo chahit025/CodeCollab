@@ -44,7 +44,7 @@ async function executeCode(language, code) {
 const configureSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: 'https://codecollab-frontend.onrender.com',
+      origin: 'https://codecollab-3usc.onrender.com',
       methods: ['GET', 'POST'],
       credentials: true
     }
