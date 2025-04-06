@@ -11,10 +11,12 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+   const [loading, setloading]=useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setloading(true);
 
     const result = await login(email, password);
     if (result.success) {
@@ -88,11 +90,18 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <button
+             <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                disabled={loading}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white 
+                  ${
+                    loading
+                      ? "bg-indigo-400 cursor-not-allowed"
+                      : "bg-indigo-600 hover:bg-indigo-700"
+                  } 
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               >
-                Sign in
+                {loading ? "Processing...." : "Sign in"}
               </button>
             </div>
 
