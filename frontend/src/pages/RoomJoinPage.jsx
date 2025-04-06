@@ -46,7 +46,7 @@ const RoomJoinPage = () => {
     );
   };
 
-  const shareUrl = `${window.location.origin}/room/join?type=user&roomId=${roomId}`;
+  const shareUrl = `${window.location.origin}`;
   const shareText = `Join my collaborative coding session on CodeCollab! Room ID: ${roomId}`;
 
   const handleCopyLink = async () => {
