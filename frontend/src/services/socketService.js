@@ -84,6 +84,12 @@ class SocketService {
       this.socket.emit('end_session', { roomId });
     }
   }
+  
+  emitRemoveUser(roomId, username) {
+    if (this.socket) {
+      this.socket.emit('remove_user', { roomId, username });
+    }
+  }
 
   onSessionEnded(callback) {
     if (this.socket) {
