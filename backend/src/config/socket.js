@@ -55,11 +55,14 @@ const configureSocket = (server) => {
   io.on('connection', (socket) => {
     // Join room
     socket.on('join_room', ({ roomId, username, isHost }) => {
+      socket.username = username;
+      socket.roomId = roomId;
       socket.join(roomId);
       
       if (!rooms.has(roomId)) {
         rooms.set(roomId, {
           users: [],
+          host: isHost ? username : undefined,
           code: '# Your code here',
           language: 'python',
           globalPermissions: {
@@ -72,6 +75,9 @@ const configureSocket = (server) => {
       }
 
       const room = rooms.get(roomId);
+       if (isHost && !room.host) {
+        room.host = username;
+      }
       room.users.push({ username, isHost, socketId: socket.id });
 
       // Send current room state to the joining user
@@ -133,6 +139,52 @@ const configureSocket = (server) => {
         io.to(roomId).emit('permissions_updated', { permissions, type, username });
       }
     });
+
+     // Handle user removal **
+socket.on('remove_user', ({ roomId, username }) => {
+  console.log('remove_user event received', roomId, username);
+
+  // Find the room and host
+  const room = rooms.get(roomId);
+  if (!room) {
+    console.log('Room not found:', roomId);
+    return;
+  }
+
+  // Only the host can remove users
+  if (room.host !== socket.username) {
+   
+    return;
+  }
+
+  // Debug: List all sockets and their properties
+  const allSockets = Array.from(io.sockets.sockets.values()).map(s => ({
+    id: s.id,
+    username: s.username,
+    roomId: s.roomId
+  }));
+  console.log('All sockets:', allSockets);
+
+  // Find the socket of the user to remove
+  const userSocket = Array.from(io.sockets.sockets.values()).find(
+    s => s.username === username && s.roomId === roomId
+  );
+  if (userSocket) {
+   
+    // Notify and disconnect the user
+    userSocket.emit('kicked');
+    userSocket.leave(roomId);
+
+    // Remove from room's user list
+    
+    room.users = room.users.filter(u => u.username !== username);
+  
+    // Notify all clients in the room
+    io.to(roomId).emit('user_left', { users: room.users });
+  } else {
+    console.log('No matching socket found for', username, roomId);
+  }
+});
 
     // Handle disconnection
     socket.on('disconnect', () => {
