@@ -165,6 +165,26 @@ const EnhancedCodeEditor = () => {
     }
   }, [users]);
 
+  // Handle kicked event
+  useEffect(() => {
+    if (socket) {
+      socket.on('kicked', () => {
+        toast.error('You have been removed from the room.');
+        navigate('/');
+      });
+    }
+  }, [socket, navigate]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('user_left', ({ users: updatedUsers }) => {
+        setUsers(updatedUsers);
+        console.log('user_left received', updatedUsers);
+      });
+    }
+  }, [socket]);
+
+
   const toggleGlobalPermission = (permission) => {
     const newPermissions = {
       ...globalPermissions,
@@ -189,6 +209,13 @@ const EnhancedCodeEditor = () => {
       "user",
       username
     );
+  };
+
+  // Handle user removal
+  const handleRemoveUser = (username) => {
+    if (window.confirm(`Remove ${username} from the room?`)) {
+      socketService.emitRemoveUser(roomId, username);
+    }
   };
 
   const handleCodeChange = (value) => {
@@ -489,6 +516,14 @@ const EnhancedCodeEditor = () => {
                     <div className="text-sm font-medium text-gray-700">{user.username}</div>
                     <div className="text-xs text-gray-500">Member</div>
                   </div>
+                  {isHost && (
+  <button
+    onClick={() => handleRemoveUser(user.username)}
+    className="ml-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-700"
+  >
+    Remove
+  </button>
+)}
                   {isHost && (
                     <div className="grid grid-cols-3 gap-2">
                       {Object.entries(userPermissions[user.username] || {}).map(([permission, value]) => (
