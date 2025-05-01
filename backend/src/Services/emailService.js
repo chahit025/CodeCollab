@@ -43,7 +43,7 @@ export const sendResetPasswordEmail = async (email, resetLink) => {
     const transporter = await createTransporter();
     
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from:`"CodeCollab"<${process.env.EMAIL_FROM}>`,
       to: email,
       subject: "Password Reset Request",
       html: `
@@ -68,7 +68,7 @@ export const sendOtpEmail = async (email, otp) => {
     const transporter = await createTransporter();
     
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from:`"CodeCollab"<${process.env.EMAIL_FROM}>`,
       to: email,
       subject: "Email Verification OTP",
       html: `
