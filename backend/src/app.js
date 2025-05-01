@@ -10,6 +10,8 @@ import configureSocket from './config/socket.js';
 import aiRoutes from './Routes/aiRoutes.js';
 import passwordResetRoutes from './Routes/passwordResetRoutes.js';
 import punycode from 'punycode';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Suppress punycode deprecation warning
 process.removeAllListeners('warning');
@@ -28,6 +30,13 @@ const server = http.createServer(app);
 
 // Socket.io setup
 const io = configureSocket(server);
+
+// Only needed if using ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 // Middleware
 app.use(cors({
@@ -51,5 +60,11 @@ app.use('/ai',aiRoutes);
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
+
+// Catch-all route to serve index.html for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+});
+
 
 export { app, server };
