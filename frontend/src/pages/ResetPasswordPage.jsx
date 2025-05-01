@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
-import axios from '../config/axios';
+import axios from '../config/axiosconfig';
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState('');
