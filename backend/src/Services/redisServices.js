@@ -1,6 +1,6 @@
-import Redis from 'ioredis';
+/*import Redis from 'ioredis';
 
-const createRedisClient = () => {
+ const createRedisClient = () => {
   const client = new Redis({
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379,
@@ -24,3 +24,4 @@ const createRedisClient = () => {
 
 const clientRedis = createRedisClient();
 export default clientRedis;
+*/
