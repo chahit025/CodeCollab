@@ -25,13 +25,13 @@ const LoginPage = () => {
       const redirectTo = location.state?.redirectTo || "/";
       navigate(redirectTo);
     } else {
-      setLoading(false); 
+      setloading(false); 
       setError(result.error || "Invalid email or password");
       toast.error(result.error || "Invalid email or password");
     }
   } catch (err) {
     
-    setLoading(false);
+    setloading(false);
     setError("Something went wrong. Please try again.");
     toast.error("Something went wrong. Please try again.");
     console.error("Login error:", err);
