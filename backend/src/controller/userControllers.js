@@ -1,6 +1,6 @@
 import * as userService from '../Services/userServices.js';
 import {validationResult} from 'express-validator';
-import clientRedis from '../Services/redisServices.js';
+//import clientRedis from '../Services/redisServices.js';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
