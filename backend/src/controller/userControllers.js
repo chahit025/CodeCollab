@@ -63,14 +63,13 @@ export const loginUserController = async (req, res) => {
  //create logout controller for logging out a user
 export const logoutController = async (req, res) => {
   try {
-    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-      return res.status(400).json({ message: 'No token provided' });
-    }
-
-    // Use promisify or await with proper error handling
-    await clientRedis.set(token, 'logout', 'EX', 60 * 60 * 24);
+    // Clear the cookie by setting an expired token
+    res.cookie('token', 'none', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Strict', 
+    });
 
     res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
