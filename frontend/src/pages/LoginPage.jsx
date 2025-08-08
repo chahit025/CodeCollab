@@ -24,9 +24,10 @@ const LoginPage = () => {
       const redirectTo = location.state?.redirectTo || "/";
       navigate(redirectTo);
     } else {
+       setLoading(false);
       setError(result.error);
       toast.error(result.error || 'Invalid email or password');
-      setLoading(false);
+      
     }
   };
 
