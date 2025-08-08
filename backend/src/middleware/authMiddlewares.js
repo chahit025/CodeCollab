@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import clientRedis from '../Services/redisServices.js'
+//import clientRedis from '../Services/redisServices.js'
 
 export const verifyToken = async (req, res, next) => {
   try {
@@ -19,7 +19,7 @@ export const verifyToken = async (req, res, next) => {
     }
 
     // Check if token is blacklisted
-    try {
+   /* try {
       const isBlacklisted = await clientRedis.get(token);
       if (isBlacklisted) {
         res.cookie('token', '', { expires: new Date(0) });
@@ -28,7 +28,7 @@ export const verifyToken = async (req, res, next) => {
     } catch (redisError) {
       console.error("Redis error:", redisError);
       // Continue even if Redis check fails
-    }
+    }*/
 
     try {
       // Verify the token
