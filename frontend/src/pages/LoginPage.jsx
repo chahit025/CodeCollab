@@ -26,6 +26,7 @@ const LoginPage = () => {
     } else {
       setError(result.error);
       toast.error(result.error || 'Invalid email or password');
+      setLoading(false);
     }
   };
 
