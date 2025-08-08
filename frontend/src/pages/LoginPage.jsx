@@ -20,16 +20,20 @@ const LoginPage = () => {
 
     const result = await login(email, password);
     if (result.success) {
-      // Check if there's a specific redirect path, otherwise go to landing page
       const redirectTo = location.state?.redirectTo || "/";
       navigate(redirectTo);
     } else {
-       setLoading(false);
-      setError(result.error);
-      toast.error(result.error || 'Invalid email or password');
-      
+      setLoading(false); 
+      setError(result.error || "Invalid email or password");
+      toast.error(result.error || "Invalid email or password");
     }
-  };
+  } catch (err) {
+    setLoading(false);
+    setError("Something went wrong. Please try again.");
+    toast.error("Something went wrong. Please try again.");
+    console.error("Login error:", err);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
