@@ -18,7 +18,9 @@ const LoginPage = () => {
     setError("");
     setloading(true);
 
+    try {
     const result = await login(email, password);
+
     if (result.success) {
       const redirectTo = location.state?.redirectTo || "/";
       navigate(redirectTo);
@@ -28,13 +30,15 @@ const LoginPage = () => {
       toast.error(result.error || "Invalid email or password");
     }
   } catch (err) {
+    
     setLoading(false);
     setError("Something went wrong. Please try again.");
     toast.error("Something went wrong. Please try again.");
-
+    console.error("Login error:", err);
   }
 };
 
+  
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Toaster position="top-center" reverseOrder={false} />
